@@ -17,6 +17,7 @@ public abstract class BaseDAO <T>{
             count++;
         }
         pstmt.executeUpdate();
+//        System.out.println("rows added: " + rowCount);
     }
 
     public List<T> read(String sql, Object[] vals) throws SQLException {
@@ -24,7 +25,7 @@ public abstract class BaseDAO <T>{
                 conn.prepareStatement(sql);
         int count = 1;
 
-        System.out.println("Read from BaseDAO: SQL Executed = "+ sql);
+//        System.out.println("Read from BaseDAO: SQL Executed = "+ sql);
 
         if(vals!= null){
             for(Object o: vals) {

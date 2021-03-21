@@ -13,6 +13,7 @@ public class AirportDAO extends BaseDAO<Airport> {
     public AirportDAO(Connection conn) {
         super(conn);
     }
+
     public void addAirport(Airport airport) throws SQLException {
         save("insert into airport values (?, ?)", new Object[] {airport.getAirportCode(), airport.getCity()});
     }
@@ -30,7 +31,7 @@ public class AirportDAO extends BaseDAO<Airport> {
     }
 
     public List<Airport> readAirportsByCode(Airport airport) throws SQLException {
-        return read("select * from airport where iata_id = ", new Object[] {airport.getAirportCode()});
+        return read("select * from airport where iata_id = ?", new Object[] {airport.getAirportCode()});
     }
 
     public List<Airport> extractData(ResultSet rs) throws SQLException {

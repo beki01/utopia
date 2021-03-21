@@ -2,10 +2,9 @@ package com.ss.utopia.entity;
 
 import java.util.List;
 
-public class Route {
+public class Airplane {
     private Integer id;
-    private Airport originAirport;
-    private Airport destAirport;
+    private Airplane_type airplane_type;
     private List<Flight> flights;
 
     public Integer getId() {
@@ -16,20 +15,12 @@ public class Route {
         this.id = id;
     }
 
-    public Airport getOriginAirport() {
-        return originAirport;
+    public Airplane_type getAirplane_type() {
+        return airplane_type;
     }
 
-    public void setOriginAirport(Airport originAirport) {
-        this.originAirport = originAirport;
-    }
-
-    public Airport getDestAirport() {
-        return destAirport;
-    }
-
-    public void setDestAirport(Airport destAirport) {
-        this.destAirport = destAirport;
+    public void setAirplane_type(Airplane_type airplane_type) {
+        this.airplane_type = airplane_type;
     }
 
     public List<Flight> getFlights() {
@@ -45,9 +36,9 @@ public class Route {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Route route = (Route) o;
+        Airplane airplane = (Airplane) o;
 
-        return getId() != null ? getId().equals(route.getId()) : route.getId() == null;
+        return getId() != null ? getId().equals(airplane.getId()) : airplane.getId() == null;
     }
 
     @Override

@@ -25,6 +25,10 @@ public class RouteDAO extends BaseDAO<Route>{
     public void deleteRoute(Route route) throws  SQLException {
         save("DELETE FROM route WHERE id = ?", new Object[] {route.getId()});
     }
+    public List<Route> readRouteById(Route r)throws SQLException{
+        return read("SELECT * FROM route WHERE id = ?",
+                new Object[]{r.getId()});
+    }
 
     public List<Route> readAllRoutes() throws SQLException{
         return read("SELECT * FROM route;", null);

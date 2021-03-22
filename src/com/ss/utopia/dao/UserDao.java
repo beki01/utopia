@@ -53,7 +53,6 @@ public class UserDao extends BaseDAO<User>{
 
     @Override
     public List<User> extractData(ResultSet rs) throws SQLException {
-        //TODO Build ExtractData method
         List<User> users = new ArrayList<>();
 
         while (rs.next()){

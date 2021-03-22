@@ -17,9 +17,32 @@ public class FlightDao extends BaseDAO<Flight>{
         super(conn);
     }
 
+    public void addFlight(Flight f) throws SQLException{
+        save("INSERT INTO flight (route_id, airplane_id, managing_user, departure_time, arrival_time, reserved_seats, seat_price) VALUES (?,?,?,?,?,?,?)",
+                new Object[]{f.getRoute().getId(), f.getAirplane_id().getId(), f.getManaging_user().getId(), f.getDeparture_time(), f.getArrival_time(), f.getReserved_seats(), f.getSeat_price()});
+    }
+
+    public List<Flight> readFlightById(Flight flight) throws SQLException {
+        return read( "SELECT * FROM flight where id = ? ",
+                new Object[] {flight.getId()});
+    }
+
     public List<Flight> readFlightsByEmployee(User user) throws SQLException {
-        return read("SELECT * FROM flight WHERE managing_id = ? ",
+        return read("SELECT * FROM flight WHERE managing_user = ? ",
                 new Object[]{user.getId()});
+    }
+
+    public List<Flight> readAllFlights() throws SQLException{
+        return read("SELECT * FROM flight", new Object[]{});
+    }
+
+    public void updateFlight(Flight f) throws SQLException{
+        save("UPDATE flight SET route_id =?, airplane_id =? , managing_user=?, departure_time=?, arrival_time=?, reserved_seats=?, seat_price=? WHERE id= ? ",
+                new Object[]{f.getRoute().getId(), f.getAirplane_id().getId(), f.getManaging_user().getId(), f.getDeparture_time(), f.getArrival_time(), f.getReserved_seats(), f.getSeat_price(), f.getId()});
+    }
+
+    public void deleteFlight(Flight f) throws SQLException{
+        save("DELETE FROM flight WHERE id=? ", new Object[]{f.getId()});
     }
 
     @Override
@@ -41,8 +64,10 @@ public class FlightDao extends BaseDAO<Flight>{
             f.setAirplane_id(a);
             f.setManaging_user(u);
             f.setDeparture_time(rs.getDate("departure_time"));
+            f.setArrival_time(rs.getDate("arrival_time"));
             f.setReserved_seats(rs.getInt("reserved_seats"));
             f.setSeat_price(rs.getDouble("seat_price"));
+
 
             flights.add(f);
         }

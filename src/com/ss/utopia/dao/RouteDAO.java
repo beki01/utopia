@@ -15,7 +15,7 @@ public class RouteDAO extends BaseDAO<Route>{
     }
 
     public void addRoute(Route route) throws SQLException {
-        save("INSERT INTO route VALUES (?, ?)", new Object[] {route.getOriginAirport(), route.getDestAirport()});
+        save("INSERT INTO route (origin_id, destination_id) VALUES (?, ?)", new Object[] {route.getOriginAirport().getAirportCode(), route.getDestAirport().getAirportCode()});
     }
 
     public void updateRoute(Route route) throws SQLException {
@@ -25,10 +25,17 @@ public class RouteDAO extends BaseDAO<Route>{
     public void deleteRoute(Route route) throws  SQLException {
         save("DELETE FROM route WHERE id = ?", new Object[] {route.getId()});
     }
+
+    public List<Route> isRoute(Route route) throws SQLException {
+        return read("SELECT * FROM route WHERE (origin_id = ? AND  destination_id=?)",
+                new Object[]{route.getOriginAirport().getAirportCode(), route.getDestAirport().getAirportCode()});
+    }
+
     public List<Route> readRouteById(Route r)throws SQLException{
         return read("SELECT * FROM route WHERE id = ?",
                 new Object[]{r.getId()});
     }
+
 
     public List<Route> readAllRoutes() throws SQLException{
         return read("SELECT * FROM route;", null);

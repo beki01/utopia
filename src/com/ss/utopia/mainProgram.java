@@ -1,8 +1,10 @@
 package com.ss.utopia;
 
+import com.ss.utopia.entity.Flight;
 import com.ss.utopia.entity.User;
 import com.ss.utopia.service.AdminService;
 import com.ss.utopia.service.EmpService;
+import com.ss.utopia.service.TravelerService;
 
 import java.util.Scanner;
 
@@ -21,17 +23,17 @@ public class mainProgram {
                     case 1:
                         System.out.println("You are an Employee");
                         employeeOptions();
-                        //TODO Build Employee Options
+
                         break;
                     case 2:
                         System.out.println("You are an Admin");
                         adminOptions();
-                        //TODO Build Admin Options
+
                         break;
                     case 3:
                         System.out.println("You are a Traveler");
                         travelerOptions();
-                        //TODO Build Traveler Options
+
                         break;
                     case 4:
                         System.out.println("GoodBye!");
@@ -58,7 +60,7 @@ public class mainProgram {
         AdminService admin = new AdminService();
         String res;
 
-        while(adminChoice!=13){
+        while(adminChoice!=17){
             try{
                 System.out.println("\nPlease Choose from the following:");
                 System.out.println("1) See All Airports \n" +
@@ -73,7 +75,11 @@ public class mainProgram {
                         "10) Update Traveler\n"+
                         "11) Delete Employee\n"+
                         "12) Delete Traveler\n"+
-                        "13) Return to previous screen");
+                        "13) See All Flights\n"+
+                        "14) Add a Flight\n"+
+                        "15) Update a Flight\n"+
+                        "16) Delete a Flight\n"+
+                        "17) Exit");
                 adminChoice = adminRes.nextInt();
 
                 switch (adminChoice){
@@ -160,6 +166,26 @@ public class mainProgram {
                         System.out.println(res);
                         break;
                     case 13:
+                        System.out.println("Read Flights.... ");
+                        res= admin.readFlights();
+                        System.out.println(res);
+                        break;
+                    case 14:
+                        System.out.println("Add a Flight.... ");
+                        res= admin.addFlight();
+                        System.out.println(res);
+                        break;
+                    case 15:
+                        System.out.println("Update a Flight.... ");
+                        res= admin.updateFlight();
+                        System.out.println(res);
+                        break;
+                    case 16:
+                        System.out.println("Delete a Flight.... ");
+                        res= admin.deleteFlight();
+                        System.out.println(res);
+                        break;
+                    case 17:
                         System.out.println("Exiting Admin Interface");
                         break;
                     default:
@@ -181,17 +207,21 @@ public class mainProgram {
         int employeeChoice = -50;
         EmpService emp = new EmpService();
         User employee = new User();
-        int employeeId=0;
+        int employeeId;
         String res;
 
-        while(employee.getId()==null || employeeId!=-1){
+        while(employee.getId() == null){
             try{
                 System.out.println("Please enter your Employee Number OR -1 to quit");
                 employeeId = employeeRes.nextInt();
                 if(employeeId!= -1) {
+                    System.out.println("entering if Statement");
                     employee.setId(employeeId);
                     emp.readEmployee(employee);
+                }else{
+                    return;
                 }
+                System.out.println("employee id is: "+ employeeId);
 
             }catch (Exception e){
                 String invalid = employeeRes.nextLine();
@@ -216,7 +246,7 @@ public class mainProgram {
                         res = emp.readFlightsByEmployee(employee);
                         System.out.println(res);
                         Integer flightNum = employeeRes.nextInt();
-                        employeeManageFlights(flightNum, employeeRes);
+                        employeeManageFlights(flightNum, employeeRes, emp);
 
                         break;
                     case 2:
@@ -237,31 +267,110 @@ public class mainProgram {
         }
     }
 
-    public static void employeeManageFlights(Integer flightNum, Scanner scan){
-        System.out.println("What youdl you like to do with this flight? ");
+    public static void employeeManageFlights(Integer flightNum, Scanner scan, EmpService emp)  {
+        System.out.println("What would you like to do with this flight? ");
         System.out.println("1) View more Details of Flight \n" +
                 "2) Update the details of the flight\n" +
                 "3) Add Seats to Flight\n" +
-                "4) Return to previous screan");
+                "4) Return to previous screen");
 
-        Integer action = scan.nextInt();
+        int action = scan.nextInt();
 
-        //TODO Write EmployeeManageFlights
+        String res;
+        Flight f = new Flight();
 
-        switch (action){
-            case 1:
+        try{
+            switch (action){
+                case 1:
 
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
+                    //Read flight by id
+                    f.setId(flightNum);
+                    res = emp.readFlightById(f);
+                    System.out.println(res);
+                    break;
+                case 2:
+                    //Update Flight
+                    System.out.println("Update Fight Option");
+
+                    break;
+                case 3:
+                    //Add Seats
+                    System.out.println("Add Seats to Fight Option");
+                    break;
+                case 4:
+                    System.out.println("Leaving flight management... ");
+                    break;
+
+            }
+        } catch(Exception e){
+            String incorrectVal = scan.nextLine();
+            System.out.println(incorrectVal+" is an invalid number");
+            System.out.println("Please use Menu numbers when making selection");
+        }
+
+    }
+
+    public static void travelerOptions(){
+        Scanner travelerRes = new Scanner(System.in);
+        int travlerChoice = -50;
+        TravelerService tvl = new TravelerService();
+        User traveler = new User();
+        int travelerId;
+        String res;
+
+        while(traveler.getId() == null){
+            try{
+                System.out.println("Please enter your Memebership Number OR -1 to quit");
+                travelerId = travelerRes.nextInt();
+                if(travelerId!= -1) {
+                    System.out.println("entering if Statement");
+                    traveler.setId(travelerId);
+                    tvl.readTraveler(traveler);
+                }else{
+                    return;
+                }
+                System.out.println("traveler id is: "+ travelerId);
+
+            }catch (Exception e){
+                String invalid = travelerRes.nextLine();
+                System.out.println(invalid+" is an invalid entry");
+                System.out.println("Please use numbers when making selection");
+            }
 
         }
-    }
-    public static void travelerOptions(){
+        while(travlerChoice!= 3){
+            try{
+                System.out.println("\nPlease Choose from the following:");
+                System.out.println("1) Book a Ticket \n2) Cancel an upcoming Trip\n3) Quit to previous");
 
+                travlerChoice = travelerRes.nextInt();
+
+                switch (travlerChoice) {
+                    case 1:
+                        System.out.println("Booking a Ticket....");
+                        res = tvl.bookTicket(traveler);
+                        System.out.println(res);
+                        break;
+                    case 2:
+                        System.out.println("Entering Cancellation.....");
+                        res = tvl.cancelTicket();
+                        System.out.println(res);
+                        break;
+                    case 3:
+                        System.out.println("Exiting Traveler Interface");
+                        break;
+                    default:
+                        System.out.println("Incorrect value please use the menu to select the correct entry");
+                        break;
+                }
+
+                System.out.println();
+            }catch (Exception e){
+                String incorrectVal = travelerRes.nextLine();
+                System.out.println(incorrectVal+" is an invalid number");
+                System.out.println("Please use Menu numbers when making selection");
+            }
+
+        }
     }
 }

@@ -4,6 +4,7 @@ public class Flight_seats {
     private Flight flight;
     private Integer seat_quantity;
     private String seat_class;
+    private Integer passenger_count;
 
     public Flight getFlight() {
         return flight;
@@ -27,6 +28,14 @@ public class Flight_seats {
 
     public void setSeat_class(String seat_class) {
         this.seat_class = seat_class;
+    }
+
+    public Integer getPassenger_count() {
+        return passenger_count;
+    }
+
+    public void setPassenger_count(Integer passenger_count) {
+        this.passenger_count = passenger_count;
     }
 
     @Override

@@ -11,8 +11,11 @@ public abstract class BaseDAO <T>{
     public void save(String sql, Object[] vals)  throws  SQLException {
         PreparedStatement pstmt =
                 conn.prepareStatement(sql);
+
+//        System.out.println("Read from BaseDAO: SQL Executed = "+ sql);
         int count = 1;
         for(Object o: vals) {
+//            System.out.println("Object in statement: "+ o);
             pstmt.setObject(count, o);
             count++;
         }

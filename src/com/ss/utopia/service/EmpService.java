@@ -1,13 +1,7 @@
 package com.ss.utopia.service;
 
-import com.ss.utopia.dao.FlightDao;
-import com.ss.utopia.dao.RouteDAO;
-import com.ss.utopia.dao.UserDao;
-import com.ss.utopia.dao.UserRoleDAO;
-import com.ss.utopia.entity.Flight;
-import com.ss.utopia.entity.Route;
-import com.ss.utopia.entity.User;
-import com.ss.utopia.entity.UserRole;
+import com.ss.utopia.dao.*;
+import com.ss.utopia.entity.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -50,6 +44,29 @@ public class EmpService {
         }
     }
 
+    public String readFlightById(Flight f) throws SQLException{
+        Connection conn = null;
+
+        try {
+            conn = util.getConnection();
+            FlightDao fDao = new FlightDao(conn);
+            RouteDAO rDao = new RouteDAO(conn);
+            AirportDAO aDao = new AirportDAO(conn);
+
+            Flight extractedF = fDao.readFlightById(f).get(0);
+            AdminService.displayFlight(rDao, aDao, extractedF);
+
+            return "\nRetrieved Flight successfully";
+        } catch(Exception e){
+            e.printStackTrace();
+            if(conn !=null) conn.rollback();
+            System.out.println();
+            return "\nCould not retrieve Flight";
+        } finally{
+            if(conn!=null) conn.close();
+        }
+    }
+
     public String readFlightsByEmployee(User u) throws SQLException{
         Connection conn = null;
 
@@ -83,4 +100,5 @@ public class EmpService {
             if(conn!=null) conn.close();
         }
     }
+
 }

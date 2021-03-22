@@ -9,6 +9,7 @@ public class Flight {
     private Airplane airplane_id;
     private User managing_user;
     private Date departure_time;
+    private Date arrival_time;
     private Integer reserved_seats;
     private Double seat_price;
     private List<Flight_bookings> flight_bookings;
@@ -52,6 +53,14 @@ public class Flight {
 
     public void setDeparture_time(Date departure_time) {
         this.departure_time = departure_time;
+    }
+
+    public Date getArrival_time() {
+        return arrival_time;
+    }
+
+    public void setArrival_time(Date arrival_time) {
+        this.arrival_time = arrival_time;
     }
 
     public Integer getReserved_seats() {

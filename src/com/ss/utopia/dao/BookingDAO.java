@@ -1,6 +1,7 @@
 package com.ss.utopia.dao;
 
 import com.ss.utopia.entity.Booking;
+import com.ss.utopia.entity.Booking_payment;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -25,6 +26,13 @@ public class BookingDAO extends BaseDAO<Booking>{
     public void updateBooking(Booking b )throws SQLException{
         save("UPDATE booking SET (is_active = ? , confirmation_code=? ) WHERE id=? ",
                 new Object[]{b.getIs_active(), b.getConfirmation_code(), b.getId()});
+    }
+
+    public void cancelBooking(Booking b, Booking_payment bp) throws SQLException{
+        save("UPDATE booking SET (is_active = ? ) WHERE id=? ",
+                new Object[]{b.getIs_active(), b.getId()});
+        save("UPDATE booking_payment SET (is_refunded = ?) where id=? ",
+                new Object[]{bp.getRefunded(), b.getId()});
     }
 
     public List<Booking> readBookings( Booking b) throws SQLException{

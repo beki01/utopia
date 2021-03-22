@@ -89,6 +89,8 @@ public class TravelerService {
 
             fbDAO.addFlightBooking(b, f);
 
+            System.out.println("Booking id is: "+ b.getId());
+
             conn.commit();
             return "\nBooked Successfully";
         } catch (Exception e) {
@@ -103,18 +105,28 @@ public class TravelerService {
 
     public String cancelTicket() throws SQLException{
         Connection conn = null;
-        //TODO build Traveler => CancelTicket
+
         try{
             conn = util.getConnection();
+            BookingDAO bDao = new BookingDAO(conn);
+            Booking_payment bp = new Booking_payment();
+            Scanner booking = new Scanner(System.in);
+            Booking b = new Booking();
 
+            System.out.println("Please enter your booking Id");
+            int bookingId = booking.nextInt();
+
+            b.setId(bookingId);
+            bp.setRefunded((byte) 1);
+            bDao.cancelBooking(b, bp);
 
             conn.commit();
-            return "\nDeleted Successfully";
+            return "\nCancelled Successfully";
         } catch (Exception e){
             e.printStackTrace();
             if(conn !=null) conn.rollback();
             System.out.println();
-            return "\nCould not delete the ticket";
+            return "\nCould not cancel the ticket";
         } finally{
             if(conn!=null) conn.close();
         }

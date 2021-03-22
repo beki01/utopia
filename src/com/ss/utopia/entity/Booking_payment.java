@@ -3,7 +3,7 @@ package com.ss.utopia.entity;
 public class Booking_payment {
     private Booking booking;
     private String strip_id;
-    private Byte refunded;
+    private Boolean refunded;
 
     public Booking getBooking() {
         return booking;
@@ -21,11 +21,11 @@ public class Booking_payment {
         this.strip_id = strip_id;
     }
 
-    public Byte getRefunded() {
+    public Boolean getRefunded() {
         return refunded;
     }
 
-    public void setRefunded(Byte refunded) {
+    public void setRefunded(Boolean refunded) {
         this.refunded = refunded;
     }
 

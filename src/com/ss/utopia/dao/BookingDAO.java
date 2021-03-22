@@ -29,9 +29,9 @@ public class BookingDAO extends BaseDAO<Booking>{
     }
 
     public void cancelBooking(Booking b, Booking_payment bp) throws SQLException{
-        save("UPDATE booking SET (is_active = ? ) WHERE id=? ",
+        save("UPDATE booking SET is_active = (?) WHERE id= (?)",
                 new Object[]{b.getIs_active(), b.getId()});
-        save("UPDATE booking_payment SET (is_refunded = ?) where id=? ",
+        save("UPDATE booking_payment SET refunded = (?) where booking_id=(?) ",
                 new Object[]{bp.getRefunded(), b.getId()});
     }
 

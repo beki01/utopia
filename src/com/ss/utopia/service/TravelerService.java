@@ -117,7 +117,8 @@ public class TravelerService {
             int bookingId = booking.nextInt();
 
             b.setId(bookingId);
-            bp.setRefunded((byte) 1);
+            b.setIs_active(false);
+            bp.setRefunded(true);
             bDao.cancelBooking(b, bp);
 
             conn.commit();
